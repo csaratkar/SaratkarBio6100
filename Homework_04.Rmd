@@ -1,0 +1,119 @@
+---
+title: "Homework_04"
+author: "Chanchal Saratkar"
+date: "2024-02-07"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+## 1.
+
+Defining variables
+```{r}
+x <- 1.1
+a <- 2.2
+b <- 3.3
+```
+
+### a.
+```{r}
+x^a^b
+```
+### b.
+```{r}
+(x^a)^b
+```
+
+### c.
+```{r}
+3*x^3 + 2*x^2 + 1
+```
+
+## 2.
+
+### a.
+```{r}
+c(seq(8), seq(from = 7, to = 1))
+```
+
+### b.
+```{r}
+twoB <- (1:5)
+rep(x = twoB, times = twoB)
+```
+
+### c.
+```{r}
+threeB <- (5:1)
+rep(x = threeB, times = twoB)
+```
+
+## 3. 
+
+```{r}
+three <- c(3,3)
+atan(three)
+```
+
+## 4. 
+
+Creating vector
+```{r}
+queue <- c("sheep", "fox", "owl", "ant")
+print(queue)
+```
+
+### a.
+```{r}
+queue <- c(queue, "serpent")
+print(queue)
+```
+
+### b.
+```{r}
+queue <- queue[-1]
+print(queue)
+```
+
+### c.
+```{r}
+queue <- c("donkey", queue)
+print(queue)
+```
+
+### d.
+```{r}
+queue <- queue[-5]
+print(queue)
+```
+
+### e.
+```{r}
+queue <- queue[-3]
+print(queue)
+```
+
+### f.
+```{r}
+queue <- c(queue, "aphid")
+print(queue)
+```
+
+### g. 
+```{r}
+queue <- queue[c(1,2,4,3)]
+print(queue)
+```
+
+## 5.
+
+```{r}
+five <- c(1:100)
+removetwo <- which(five%%2 != 0|five%%3 != 0|five%%7 != 0)
+which(removetwo%%3 != 0)
+comb <- c(which(five%%2 != 0), which(five%%3 != 0), which(five%%7 != 0))
+print(comb)
+```
+

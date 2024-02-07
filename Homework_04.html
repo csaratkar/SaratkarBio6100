@@ -11,9 +11,9 @@
 
 <meta name="author" content="Chanchal Saratkar" />
 
-<meta name="date" content="2024-01-24" />
+<meta name="date" content="2024-02-07" />
 
-<title>index</title>
+<title>Homework_04</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -350,16 +350,133 @@ display: none;
 
 
 
-<h1 class="title toc-ignore">index</h1>
+<h1 class="title toc-ignore">Homework_04</h1>
 <h4 class="author">Chanchal Saratkar</h4>
-<h4 class="date">2024-01-24</h4>
+<h4 class="date">2024-02-07</h4>
 
 </div>
 
 
-<p>Link for assignment 1: <a href="newpage.html">Link</a></p>
-<p><strong>31 January 2024</strong>: Link for assignment 3: <a href="Homework_03.html">Link</a></p>
-<p><strong>7 February 2024</strong>: Link for assignment 4: <a href="Homework_04.html">Link</a></p>
+<div id="section" class="section level2">
+<h2>1.</h2>
+<p>Defining variables</p>
+<pre class="r"><code>x &lt;- 1.1
+a &lt;- 2.2
+b &lt;- 3.3</code></pre>
+<div id="a." class="section level3">
+<h3>a.</h3>
+<pre class="r"><code>x^a^b</code></pre>
+<pre><code>## [1] 3.61714</code></pre>
+</div>
+<div id="b." class="section level3">
+<h3>b.</h3>
+<pre class="r"><code>(x^a)^b</code></pre>
+<pre><code>## [1] 1.997611</code></pre>
+</div>
+<div id="c." class="section level3">
+<h3>c.</h3>
+<pre class="r"><code>3*x^3 + 2*x^2 + 1</code></pre>
+<pre><code>## [1] 7.413</code></pre>
+</div>
+</div>
+<div id="section-1" class="section level2">
+<h2>2.</h2>
+<div id="a.-1" class="section level3">
+<h3>a.</h3>
+<pre class="r"><code>c(seq(8), seq(from = 7, to = 1))</code></pre>
+<pre><code>##  [1] 1 2 3 4 5 6 7 8 7 6 5 4 3 2 1</code></pre>
+</div>
+<div id="b.-1" class="section level3">
+<h3>b.</h3>
+<pre class="r"><code>twoB &lt;- (1:5)
+rep(x = twoB, times = twoB)</code></pre>
+<pre><code>##  [1] 1 2 2 3 3 3 4 4 4 4 5 5 5 5 5</code></pre>
+</div>
+<div id="c.-1" class="section level3">
+<h3>c.</h3>
+<pre class="r"><code>threeB &lt;- (5:1)
+rep(x = threeB, times = twoB)</code></pre>
+<pre><code>##  [1] 5 4 4 3 3 3 2 2 2 2 1 1 1 1 1</code></pre>
+</div>
+</div>
+<div id="section-2" class="section level2">
+<h2>3.</h2>
+<pre class="r"><code>three &lt;- c(3,3)
+atan(three)</code></pre>
+<pre><code>## [1] 1.249046 1.249046</code></pre>
+</div>
+<div id="section-3" class="section level2">
+<h2>4.</h2>
+<p>Creating vector</p>
+<pre class="r"><code>queue &lt;- c(&quot;sheep&quot;, &quot;fox&quot;, &quot;owl&quot;, &quot;ant&quot;)
+print(queue)</code></pre>
+<pre><code>## [1] &quot;sheep&quot; &quot;fox&quot;   &quot;owl&quot;   &quot;ant&quot;</code></pre>
+<div id="a.-2" class="section level3">
+<h3>a.</h3>
+<pre class="r"><code>queue &lt;- c(queue, &quot;serpent&quot;)
+print(queue)</code></pre>
+<pre><code>## [1] &quot;sheep&quot;   &quot;fox&quot;     &quot;owl&quot;     &quot;ant&quot;     &quot;serpent&quot;</code></pre>
+</div>
+<div id="b.-2" class="section level3">
+<h3>b.</h3>
+<pre class="r"><code>queue &lt;- queue[-1]
+print(queue)</code></pre>
+<pre><code>## [1] &quot;fox&quot;     &quot;owl&quot;     &quot;ant&quot;     &quot;serpent&quot;</code></pre>
+</div>
+<div id="c.-2" class="section level3">
+<h3>c.</h3>
+<pre class="r"><code>queue &lt;- c(&quot;donkey&quot;, queue)
+print(queue)</code></pre>
+<pre><code>## [1] &quot;donkey&quot;  &quot;fox&quot;     &quot;owl&quot;     &quot;ant&quot;     &quot;serpent&quot;</code></pre>
+</div>
+<div id="d." class="section level3">
+<h3>d.</h3>
+<pre class="r"><code>queue &lt;- queue[-5]
+print(queue)</code></pre>
+<pre><code>## [1] &quot;donkey&quot; &quot;fox&quot;    &quot;owl&quot;    &quot;ant&quot;</code></pre>
+</div>
+<div id="e." class="section level3">
+<h3>e.</h3>
+<pre class="r"><code>queue &lt;- queue[-3]
+print(queue)</code></pre>
+<pre><code>## [1] &quot;donkey&quot; &quot;fox&quot;    &quot;ant&quot;</code></pre>
+</div>
+<div id="f." class="section level3">
+<h3>f.</h3>
+<pre class="r"><code>queue &lt;- c(queue, &quot;aphid&quot;)
+print(queue)</code></pre>
+<pre><code>## [1] &quot;donkey&quot; &quot;fox&quot;    &quot;ant&quot;    &quot;aphid&quot;</code></pre>
+</div>
+<div id="g." class="section level3">
+<h3>g.</h3>
+<pre class="r"><code>queue &lt;- queue[c(1,2,4,3)]
+print(queue)</code></pre>
+<pre><code>## [1] &quot;donkey&quot; &quot;fox&quot;    &quot;aphid&quot;  &quot;ant&quot;</code></pre>
+</div>
+</div>
+<div id="section-4" class="section level2">
+<h2>5.</h2>
+<pre class="r"><code>five &lt;- c(1:100)
+removetwo &lt;- which(five%%2 != 0|five%%3 != 0|five%%7 != 0)
+which(removetwo%%3 != 0)</code></pre>
+<pre><code>##  [1]  1  2  4  5  7  8 10 11 13 14 16 17 19 20 22 23 25 26 28 29 31 32 34 35 37
+## [26] 38 40 41 42 43 45 46 48 49 51 52 54 55 57 58 60 61 63 64 66 67 69 70 72 73
+## [51] 75 76 78 79 81 82 83 84 86 87 89 90 92 93 95 96 98</code></pre>
+<pre class="r"><code>comb &lt;- c(which(five%%2 != 0), which(five%%3 != 0), which(five%%7 != 0))
+print(comb)</code></pre>
+<pre><code>##   [1]   1   3   5   7   9  11  13  15  17  19  21  23  25  27  29  31  33  35
+##  [19]  37  39  41  43  45  47  49  51  53  55  57  59  61  63  65  67  69  71
+##  [37]  73  75  77  79  81  83  85  87  89  91  93  95  97  99   1   2   4   5
+##  [55]   7   8  10  11  13  14  16  17  19  20  22  23  25  26  28  29  31  32
+##  [73]  34  35  37  38  40  41  43  44  46  47  49  50  52  53  55  56  58  59
+##  [91]  61  62  64  65  67  68  70  71  73  74  76  77  79  80  82  83  85  86
+## [109]  88  89  91  92  94  95  97  98 100   1   2   3   4   5   6   8   9  10
+## [127]  11  12  13  15  16  17  18  19  20  22  23  24  25  26  27  29  30  31
+## [145]  32  33  34  36  37  38  39  40  41  43  44  45  46  47  48  50  51  52
+## [163]  53  54  55  57  58  59  60  61  62  64  65  66  67  68  69  71  72  73
+## [181]  74  75  76  78  79  80  81  82  83  85  86  87  88  89  90  92  93  94
+## [199]  95  96  97  99 100</code></pre>
+</div>
 
 
 

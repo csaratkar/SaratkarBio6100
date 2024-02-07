@@ -12,3 +12,5 @@ knitr::opts_chunk$set(echo = TRUE)
 Link for assignment 1: [Link](newpage.html)
 
 **31 January 2024**: Link for assignment 3: [Link](Homework_03.html)
+
+**7 February 2024**: Link for assignment 4: [Link](Homework_04.html)
