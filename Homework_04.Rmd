@@ -111,9 +111,6 @@ print(queue)
 
 ```{r}
 five <- c(1:100)
-removetwo <- which(five%%2 != 0|five%%3 != 0|five%%7 != 0)
-which(removetwo%%3 != 0)
-comb <- c(which(five%%2 != 0), which(five%%3 != 0), which(five%%7 != 0))
-print(comb)
+print(five[which(five%%2 != 0&five%%3 != 0&five%%7 != 0)])
 ```
 
