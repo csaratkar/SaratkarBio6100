@@ -11,9 +11,9 @@
 
 <meta name="author" content="Chanchal Saratkar" />
 
-<meta name="date" content="2024-01-24" />
+<meta name="date" content="2024-02-15" />
 
-<title>index</title>
+<title>Homework 5</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -350,17 +350,205 @@ display: none;
 
 
 
-<h1 class="title toc-ignore">index</h1>
+<h1 class="title toc-ignore">Homework 5</h1>
 <h4 class="author">Chanchal Saratkar</h4>
-<h4 class="date">2024-01-24</h4>
+<h4 class="date">2024-02-15</h4>
 
 </div>
 
 
-<p>Link for assignment 1: <a href="newpage.html">Link</a></p>
-<p><strong>31 January 2024</strong>: Link for assignment 3: <a href="Homework_03.html">Link</a></p>
-<p><strong>7 February 2024</strong>: Link for assignment 4: <a href="Homework_04.html">Link</a></p>
-<p><strong>14 February 2024</strong>: Link for assignment 5: <a href="Homework_05.html">Link</a></p>
+<div id="section" class="section level2">
+<h2>1.</h2>
+<pre class="r"><code>n_dims &lt;- sample(3:30, 1, replace = FALSE) 
+
+oneVector &lt;- 1:n_dims^2 
+
+oneVector &lt;- sample(x = oneVector)
+
+oneMatrix&lt;- matrix(oneVector, ncol = n_dims)
+print(oneMatrix)</code></pre>
+<pre><code>##       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11] [,12]
+##  [1,]  102   77   50   93   55   88  133   91   13    10    59    99
+##  [2,]   43   22  121  128   49   78   38   11   31    73    81    16
+##  [3,]   24  117  115  123   68   14   89  131   62   138    84     9
+##  [4,]   71  107  116   20   35   94  134   42  111    34    17   132
+##  [5,]   52  105   65  113  122   80   96   36   41   109    40    87
+##  [6,]  120   51   61   85  126   12   60  104    4    56   136    46
+##  [7,]   39  139   86  130   90   44   95  144  108   129    53    23
+##  [8,]   74   25   82  112  140   48   15  141  137    18   125    19
+##  [9,]   33   64   29    3   75   21    8  100   27    30   103    92
+## [10,]  118   47   37  114    5   58   69   57   98    32    76     7
+## [11,]   63   70   83   97    1   66  106   28    2   119   127    26
+## [12,]    6   54  124   45  110   72  135   79  143    67   142   101</code></pre>
+<pre class="r"><code>t(oneMatrix)</code></pre>
+<pre><code>##       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11] [,12]
+##  [1,]  102   43   24   71   52  120   39   74   33   118    63     6
+##  [2,]   77   22  117  107  105   51  139   25   64    47    70    54
+##  [3,]   50  121  115  116   65   61   86   82   29    37    83   124
+##  [4,]   93  128  123   20  113   85  130  112    3   114    97    45
+##  [5,]   55   49   68   35  122  126   90  140   75     5     1   110
+##  [6,]   88   78   14   94   80   12   44   48   21    58    66    72
+##  [7,]  133   38   89  134   96   60   95   15    8    69   106   135
+##  [8,]   91   11  131   42   36  104  144  141  100    57    28    79
+##  [9,]   13   31   62  111   41    4  108  137   27    98     2   143
+## [10,]   10   73  138   34  109   56  129   18   30    32   119    67
+## [11,]   59   81   84   17   40  136   53  125  103    76   127   142
+## [12,]   99   16    9  132   87   46   23   19   92     7    26   101</code></pre>
+<pre class="r"><code>print(sum(oneMatrix[ , 1]))</code></pre>
+<pre><code>## [1] 745</code></pre>
+<pre class="r"><code>print(mean(oneMatrix[ , 1]))</code></pre>
+<pre><code>## [1] 62.08333</code></pre>
+<pre class="r"><code>print(sum(oneMatrix[ , ncol(oneMatrix)]))</code></pre>
+<pre><code>## [1] 657</code></pre>
+<pre class="r"><code>print(mean(oneMatrix[ , ncol(oneMatrix)]))</code></pre>
+<pre><code>## [1] 54.75</code></pre>
+<pre class="r"><code>oneEigen &lt;- eigen(oneMatrix)
+print(oneEigen)</code></pre>
+<pre><code>## eigen() decomposition
+## $values
+##  [1]  870.938765+  0.00000i -114.829898+  0.00000i    0.561199+113.87907i
+##  [4]    0.561199-113.87907i   57.061546+ 91.58352i   57.061546- 91.58352i
+##  [7]   66.002571+ 45.62958i   66.002571- 45.62958i  -59.014909+ 13.99278i
+## [10]  -59.014909- 13.99278i   37.383288+  0.00000i   -6.712969+  0.00000i
+## 
+## $vectors
+##               [,1]          [,2]                    [,3]
+##  [1,] 0.3012680+0i -0.2094343+0i  0.05071839-0.28317708i
+##  [2,] 0.2270687+0i  0.1793780+0i -0.02173995-0.15453210i
+##  [3,] 0.3104862+0i -0.2959665+0i  0.09974749+0.32521549i
+##  [4,] 0.3036381+0i  0.2599192+0i  0.30867519-0.23021473i
+##  [5,] 0.3132782+0i -0.2333672+0i -0.13371478-0.04354175i
+##  [6,] 0.2893293+0i -0.0412113+0i -0.16594493-0.04478401i
+##  [7,] 0.3425579+0i -0.2702356+0i -0.08527011+0.38970959i
+##  [8,] 0.3008646+0i  0.3864097+0i -0.23070372+0.07899817i
+##  [9,] 0.1925329+0i -0.4045194+0i -0.06039205-0.08092426i
+## [10,] 0.2292262+0i  0.2851922+0i -0.31344919-0.07251261i
+## [11,] 0.2568131+0i -0.1031911+0i  0.08000656+0.01087790i
+## [12,] 0.3518424+0i  0.4844475+0i  0.49065223+0.00000000i
+##                          [,4]                    [,5]                    [,6]
+##  [1,]  0.05071839+0.28317708i  0.02547825-0.20110595i  0.02547825+0.20110595i
+##  [2,] -0.02173995+0.15453210i -0.30836078-0.05721040i -0.30836078+0.05721040i
+##  [3,]  0.09974749-0.32521549i  0.01977930-0.15873821i  0.01977930+0.15873821i
+##  [4,]  0.30867519+0.23021473i  0.26916521-0.03822086i  0.26916521+0.03822086i
+##  [5,] -0.13371478+0.04354175i -0.12456110-0.12078848i -0.12456110+0.12078848i
+##  [6,] -0.16594493+0.04478401i -0.30853380-0.01106078i -0.30853380+0.01106078i
+##  [7,] -0.08527011-0.38970959i  0.21946728-0.12116555i  0.21946728+0.12116555i
+##  [8,] -0.23070372-0.07899817i  0.22129449+0.22296348i  0.22129449-0.22296348i
+##  [9,] -0.06039205+0.08092426i  0.09668275+0.36773754i  0.09668275-0.36773754i
+## [10,] -0.31344919+0.07251261i  0.06360684-0.05823204i  0.06360684+0.05823204i
+## [11,]  0.08000656-0.01087790i -0.43938103+0.00000000i -0.43938103+0.00000000i
+## [12,]  0.49065223+0.00000000i  0.23940317+0.26779010i  0.23940317-0.26779010i
+##                          [,7]                    [,8]                  [,9]
+##  [1,]  0.27261987+0.07545333i  0.27261987-0.07545333i  0.1648940-0.1860092i
+##  [2,]  0.07378420+0.03601943i  0.07378420-0.03601943i  0.2272990-0.0172813i
+##  [3,] -0.06593132+0.05159021i -0.06593132-0.05159021i  0.0096005-0.1305724i
+##  [4,] -0.25179366+0.19275927i -0.25179366-0.19275927i  0.1284965+0.2894441i
+##  [5,]  0.29072079+0.24307110i  0.29072079-0.24307110i  0.1625963-0.1379946i
+##  [6,]  0.41202153-0.11332971i  0.41202153+0.11332971i -0.6030401+0.0000000i
+##  [7,]  0.06248968+0.07061114i  0.06248968-0.07061114i  0.1366788-0.0894734i
+##  [8,]  0.06704023-0.08185332i  0.06704023+0.08185332i -0.3090536+0.1120772i
+##  [9,] -0.26083768-0.11946069i -0.26083768+0.11946069i  0.1197962-0.1150422i
+## [10,]  0.01017811-0.11051842i  0.01017811+0.11051842i -0.3039428+0.0241559i
+## [11,] -0.04308853-0.27519610i -0.04308853+0.27519610i  0.1764101-0.0248526i
+## [12,] -0.53588403+0.00000000i -0.53588403+0.00000000i -0.0882386+0.2546414i
+##                       [,10]          [,11]            [,12]
+##  [1,]  0.1648940+0.1860092i  0.19139864+0i -0.1574757482+0i
+##  [2,]  0.2272990+0.0172813i -0.61284286+0i  0.6423325159+0i
+##  [3,]  0.0096005+0.1305724i -0.35631844+0i  0.0156854087+0i
+##  [4,]  0.1284965-0.2894441i -0.12186402+0i  0.1010665276+0i
+##  [5,]  0.1625963+0.1379946i -0.07564587+0i  0.1134456339+0i
+##  [6,] -0.6030401+0.0000000i  0.11209232+0i -0.1178389940+0i
+##  [7,]  0.1366788+0.0894734i  0.08879647+0i  0.0362494047+0i
+##  [8,] -0.3090536-0.1120772i  0.32611312+0i -0.3227474948+0i
+##  [9,]  0.1197962+0.1150422i  0.16498436+0i  0.0004335405+0i
+## [10,] -0.3039428-0.0241559i  0.46808148+0i -0.5322933984+0i
+## [11,]  0.1764101+0.0248526i -0.16562037+0i  0.2731581799+0i
+## [12,] -0.0882386-0.2546414i  0.19926049+0i -0.2489218881+0i</code></pre>
+<pre class="r"><code>typeof(oneEigen$values)</code></pre>
+<pre><code>## [1] &quot;complex&quot;</code></pre>
+<pre class="r"><code>typeof(oneEigen$vectors)</code></pre>
+<pre><code>## [1] &quot;complex&quot;</code></pre>
+<pre class="r"><code># The subset values and vectors are both complex vectors</code></pre>
+</div>
+<div id="section-1" class="section level2">
+<h2>2.</h2>
+<pre class="r"><code>my_matrix &lt;- matrix(data = runif(16), nrow = 4, ncol = 4)
+
+my_logical &lt;- runif(100) 
+my_logical &lt; 0.5 </code></pre>
+<pre><code>##   [1]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE
+##  [13]  TRUE FALSE FALSE  TRUE  TRUE  TRUE FALSE FALSE FALSE FALSE  TRUE  TRUE
+##  [25]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE  TRUE
+##  [37]  TRUE FALSE  TRUE  TRUE FALSE FALSE  TRUE  TRUE FALSE FALSE  TRUE FALSE
+##  [49]  TRUE  TRUE  TRUE  TRUE FALSE  TRUE FALSE  TRUE FALSE FALSE FALSE  TRUE
+##  [61] FALSE FALSE  TRUE  TRUE FALSE FALSE FALSE  TRUE FALSE  TRUE FALSE FALSE
+##  [73] FALSE FALSE  TRUE FALSE FALSE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE
+##  [85]  TRUE  TRUE FALSE FALSE  TRUE  TRUE  TRUE FALSE FALSE FALSE  TRUE  TRUE
+##  [97] FALSE  TRUE  TRUE  TRUE</code></pre>
+<pre class="r"><code>head(my_logical &lt; 0.5)</code></pre>
+<pre><code>## [1] TRUE TRUE TRUE TRUE TRUE TRUE</code></pre>
+<pre class="r"><code>my_letters &lt;- sample(x = letters) 
+
+list(my_matrix[2,2], my_logical[2], my_letters[2]) </code></pre>
+<pre><code>## [[1]]
+## [1] 0.7927439
+## 
+## [[2]]
+## [1] 0.4907268
+## 
+## [[3]]
+## [1] &quot;h&quot;</code></pre>
+<pre class="r"><code>typeof(my_matrix[2,2]) </code></pre>
+<pre><code>## [1] &quot;double&quot;</code></pre>
+<pre class="r"><code>typeof(my_logical[2]) </code></pre>
+<pre><code>## [1] &quot;double&quot;</code></pre>
+<pre class="r"><code>typeof(my_letters[2]) </code></pre>
+<pre><code>## [1] &quot;character&quot;</code></pre>
+<pre class="r"><code>typeof(c(my_matrix[2,2], my_logical[2], my_letters[2]))</code></pre>
+<pre><code>## [1] &quot;character&quot;</code></pre>
+</div>
+<div id="section-2" class="section level2">
+<h2>3.</h2>
+<pre class="r"><code>my_unis &lt;- runif(26, min = 0, max = 10) 
+my_letters &lt;- sample(x = LETTERS) 
+
+df &lt;- data.frame(my_unis, my_letters)
+df[sample(nrow(df),4),1] &lt;- NA
+
+print(which(!complete.cases(df)))</code></pre>
+<pre><code>## [1]  6  7 22 25</code></pre>
+<pre class="r"><code>df &lt;- df[order(df$my_letters),]
+print(df)</code></pre>
+<pre><code>##      my_unis my_letters
+## 6         NA          A
+## 25        NA          B
+## 23 5.3420564          C
+## 4  7.6864948          D
+## 7         NA          E
+## 1  9.7309570          F
+## 12 1.8659002          G
+## 14 6.8539236          H
+## 21 3.4477780          I
+## 8  9.4785026          J
+## 13 4.6594773          K
+## 19 3.7480181          L
+## 10 0.5864951          M
+## 18 7.3835744          N
+## 17 4.8816753          O
+## 20 5.6252836          P
+## 9  7.2750258          Q
+## 15 4.2081363          R
+## 22        NA          S
+## 11 2.5598301          T
+## 16 6.3371358          U
+## 5  5.7460487          V
+## 3  9.0521648          W
+## 26 8.4394698          X
+## 2  3.8864324          Y
+## 24 5.4022469          Z</code></pre>
+<pre class="r"><code>print(mean(df[ , &quot;my_unis&quot;], na.rm = TRUE))</code></pre>
+<pre><code>## [1] 5.645301</code></pre>
+</div>
 
 
 

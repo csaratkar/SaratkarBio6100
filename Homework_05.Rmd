@@ -1,0 +1,77 @@
+---
+title: "Homework 5"
+author: "Chanchal Saratkar"
+date: "2024-02-15"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 1. 
+
+```{r}
+n_dims <- sample(3:30, 1, replace = FALSE) 
+
+oneVector <- 1:n_dims^2 
+
+oneVector <- sample(x = oneVector)
+
+oneMatrix<- matrix(oneVector, ncol = n_dims)
+print(oneMatrix)
+
+t(oneMatrix)
+
+print(sum(oneMatrix[ , 1]))
+print(mean(oneMatrix[ , 1]))
+
+print(sum(oneMatrix[ , ncol(oneMatrix)]))
+print(mean(oneMatrix[ , ncol(oneMatrix)]))
+
+oneEigen <- eigen(oneMatrix)
+print(oneEigen)
+
+typeof(oneEigen$values)
+typeof(oneEigen$vectors)
+
+# The subset values and vectors are both complex vectors
+```
+
+## 2.
+
+```{r}
+my_matrix <- matrix(data = runif(16), nrow = 4, ncol = 4)
+
+my_logical <- runif(100) 
+my_logical < 0.5 
+head(my_logical < 0.5)
+
+my_letters <- sample(x = letters) 
+
+list(my_matrix[2,2], my_logical[2], my_letters[2]) 
+typeof(my_matrix[2,2]) 
+typeof(my_logical[2]) 
+typeof(my_letters[2]) 
+typeof(c(my_matrix[2,2], my_logical[2], my_letters[2]))
+```
+
+
+## 3.
+
+
+```{r}
+my_unis <- runif(26, min = 0, max = 10) 
+my_letters <- sample(x = LETTERS) 
+
+df <- data.frame(my_unis, my_letters)
+df[sample(nrow(df),4),1] <- NA
+
+print(which(!complete.cases(df)))
+
+df <- df[order(df$my_letters),]
+print(df)
+
+print(mean(df[ , "my_unis"], na.rm = TRUE))
+```
+
