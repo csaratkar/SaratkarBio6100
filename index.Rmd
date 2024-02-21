@@ -16,3 +16,5 @@ Link for assignment 1: [Link](newpage.html)
 **7 February 2024**: Link for assignment 4: [Link](Homework_04.html)
 
 **14 February 2024**: Link for assignment 5: [Link](Homework_05.html)
+
+**21 February 2024**: Link for assignment 6: [Link](Homework_06.html)

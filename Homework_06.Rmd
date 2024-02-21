@@ -1,0 +1,177 @@
+---
+title: "Homework #6"
+author: "Chanchal Saratkar"
+date: "2024-02-21"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# "Fake data"
+```{r}
+library(ggplot2)
+library(MASS)
+```
+
+#Generate data
+
+```{r}
+z <- rnorm(n=3000,mean=0.2)
+z <- data.frame(1:3000,z)
+names(z) <- list("ID","myVar")
+z <- z[z$myVar>0,]
+str(z)
+summary(z$myVar)
+```
+```{r}
+p1 <- ggplot(data=z, aes(x=myVar, y=..density..)) +
+  geom_histogram(color="grey60",fill="cornsilk",size=0.2) 
+print(p1)
+```
+
+```{r}
+p1 <-  p1 +  geom_density(linetype="dotted",size=0.75)
+print(p1)
+```
+
+```{r}
+normPars <- fitdistr(z$myVar,"normal")
+print(normPars)
+str(normPars)
+normPars$estimate["mean"]
+```
+
+```{r}
+meanML <- normPars$estimate["mean"]
+sdML <- normPars$estimate["sd"]
+
+xval <- seq(0,max(z$myVar),len=length(z$myVar))
+
+ stat <- stat_function(aes(x = xval, y = ..y..), fun = dnorm, colour="red", n = length(z$myVar), args = list(mean = meanML, sd = sdML))
+ p1 + stat
+```
+
+```{r}
+expoPars <- fitdistr(z$myVar,"exponential")
+rateML <- expoPars$estimate["rate"]
+
+stat2 <- stat_function(aes(x = xval, y = ..y..), fun = dexp, colour="blue", n = length(z$myVar), args = list(rate=rateML))
+ p1 + stat + stat2
+```
+
+```{r}
+stat3 <- stat_function(aes(x = xval, y = ..y..), fun = dunif, colour="darkgreen", n = length(z$myVar), args = list(min=min(z$myVar), max=max(z$myVar)))
+ p1 + stat + stat2 + stat3
+```
+
+
+```{r}
+gammaPars <- fitdistr(z$myVar,"gamma")
+shapeML <- gammaPars$estimate["shape"]
+rateML <- gammaPars$estimate["rate"]
+
+stat4 <- stat_function(aes(x = xval, y = ..y..), fun = dgamma, colour="brown", n = length(z$myVar), args = list(shape=shapeML, rate=rateML))
+p1 + stat + stat2 + stat3 + stat4
+```
+
+```{r}
+pSpecial <- ggplot(data=z, aes(x=myVar/(max(myVar + 0.1)), y=..density..)) +
+  geom_histogram(color="grey60",fill="cornsilk",size=0.2) + 
+  xlim(c(0,1)) +
+  geom_density(size=0.75,linetype="dotted")
+
+betaPars <- fitdistr(x=z$myVar/max(z$myVar + 0.1),start=list(shape1=1,shape2=2),"beta")
+shape1ML <- betaPars$estimate["shape1"]
+shape2ML <- betaPars$estimate["shape2"]
+
+statSpecial <- stat_function(aes(x = xval, y = ..y..), fun = dbeta, colour="orchid", n = length(z$myVar), args = list(shape1=shape1ML,shape2=shape2ML))
+pSpecial + statSpecial
+```
+
+
+```{r}
+z <- read.csv("https://raw.githubusercontent.com/ZoopEcoEvo/champlain_seasonality/main/Output/Data/full_data.csv",header=TRUE,sep=",")
+str(z)
+summary(z)
+```
+
+```{r}
+library(ggplot2) 
+library(MASS)
+library(tidyverse)
+```
+
+
+```{r}
+p1 <- ggplot(data=z, aes(x=size, y = ..density..)) +
+  geom_histogram(color="grey60",fill="cornsilk",size=0.1) 
+print(p1)
+```
+
+```{r}
+p1 <-  p1 +  geom_density(linetype="dotted",size=0.75)
+print(p1)
+```
+
+
+```{r}
+z <- na.omit(z)
+normPars <- fitdistr(z$size,"normal")
+print(normPars)
+str(normPars)
+print(normPars$estimate["mean"])
+```
+
+## normal probability density
+```{r}
+meanML <- normPars$estimate["mean"]
+sdML <- normPars$estimate["sd"]
+
+xval <- seq(0,max(z$size),len=length(z$size))
+
+stat <- stat_function(aes(x = size, y = ..y..), fun = dnorm, colour="red", n = length(z$size), args = list(mean = meanML, sd = sdML))
+p1 + stat
+```
+
+## exponential probability density
+```{r}
+expoPars <- fitdistr(z$size,"exponential")
+rateML <- expoPars$estimate["rate"]
+
+stat2 <- stat_function(aes(x = size, y = ..y..), fun = dexp, colour="blue", n = length(z$size), args = list(rate=rateML))
+p1 + stat + stat2
+```
+
+## uniform probability denisty
+```{r}
+stat3 <- stat_function(aes(x = size, y = ..y..), fun = dunif, colour="darkgreen", n = length(z$size), args = list(min=min(z$size), max=max(z$size)))
+p1 + stat + stat2 + stat3
+```
+
+## gamma probability denisty
+```{r}
+gammaPars <- fitdistr(z$size,"gamma")
+shapeML <- gammaPars$estimate["shape"]
+rateML <- gammaPars$estimate["rate"]
+
+stat4 <- stat_function(aes(x = size, y = ..y..), fun = dgamma, colour="brown", n = length(z$size), args = list(shape=shapeML, rate=rateML))
+p1 + stat + stat2 + stat3 + stat4
+```
+
+## beta probability density
+```{r}
+pSpecial <- ggplot(data=z, aes(x=size/(max(size + 0.1)), y=..density..)) +
+  geom_histogram(color="grey60",fill="cornsilk",size=0.2) + 
+  xlim(c(min=min(z$size), max=max(z$size))) +
+  geom_density(size=0.75,linetype="dotted")
+
+betaPars <- fitdistr(x=z$size/max(z$size + 0.1),start=list(shape1=1,shape2=2),"beta")
+shape1ML <- betaPars$estimate["shape1"]
+shape2ML <- betaPars$estimate["shape2"]
+
+statSpecial <- stat_function(aes(x = size, y = ..y..), fun = dbeta, colour="orchid", n = length(z$size), args = list(shape1=shape1ML,shape2=shape2ML))
+pSpecial + statSpecial
+```
+
