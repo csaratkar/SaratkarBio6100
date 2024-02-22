@@ -9,94 +9,105 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# "Fake data"
+# 1. "Fake data"
 ```{r}
-library(ggplot2)
-library(MASS)
+# library(ggplot2)
+# library(MASS)
 ```
 
-#Generate data
+## Generate data
 
 ```{r}
-z <- rnorm(n=3000,mean=0.2)
-z <- data.frame(1:3000,z)
-names(z) <- list("ID","myVar")
-z <- z[z$myVar>0,]
-str(z)
-summary(z$myVar)
+# z <- rnorm(n=3000,mean=0.2)
+# z <- data.frame(1:3000,z)
+# names(z) <- list("ID","myVar")
+# z <- z[z$myVar>0,]
+# str(z)
+# summary(z$myVar)
 ```
+## Histogram
 ```{r}
-p1 <- ggplot(data=z, aes(x=myVar, y=..density..)) +
-  geom_histogram(color="grey60",fill="cornsilk",size=0.2) 
-print(p1)
-```
-
-```{r}
-p1 <-  p1 +  geom_density(linetype="dotted",size=0.75)
-print(p1)
+# p1 <- ggplot(data=z, aes(x=myVar, y=..density..)) +
+#   geom_histogram(color="grey60",fill="cornsilk",size=0.2) 
+# print(p1)
 ```
 
+## Empirical density curve
 ```{r}
-normPars <- fitdistr(z$myVar,"normal")
-print(normPars)
-str(normPars)
-normPars$estimate["mean"]
+# p1 <-  p1 +  geom_density(linetype="dotted",size=0.75)
+# print(p1)
 ```
 
+## Parameters for `normal` probability density
 ```{r}
-meanML <- normPars$estimate["mean"]
-sdML <- normPars$estimate["sd"]
-
-xval <- seq(0,max(z$myVar),len=length(z$myVar))
-
- stat <- stat_function(aes(x = xval, y = ..y..), fun = dnorm, colour="red", n = length(z$myVar), args = list(mean = meanML, sd = sdML))
- p1 + stat
+# normPars <- fitdistr(z$myVar,"normal")
+# print(normPars)
+# str(normPars)
+# normPars$estimate["mean"]
 ```
 
+## `normal` probability density
 ```{r}
-expoPars <- fitdistr(z$myVar,"exponential")
-rateML <- expoPars$estimate["rate"]
-
-stat2 <- stat_function(aes(x = xval, y = ..y..), fun = dexp, colour="blue", n = length(z$myVar), args = list(rate=rateML))
- p1 + stat + stat2
+# meanML <- normPars$estimate["mean"]
+# sdML <- normPars$estimate["sd"]
+# 
+# xval <- seq(0,max(z$myVar),len=length(z$myVar))
+# 
+#  stat <- stat_function(aes(x = xval, y = ..y..), fun = dnorm, colour="red", n = length(z$myVar), args = list(mean = meanML, sd = sdML))
+#  p1 + stat
 ```
 
+## `exponential` probability density
 ```{r}
-stat3 <- stat_function(aes(x = xval, y = ..y..), fun = dunif, colour="darkgreen", n = length(z$myVar), args = list(min=min(z$myVar), max=max(z$myVar)))
- p1 + stat + stat2 + stat3
+# expoPars <- fitdistr(z$myVar,"exponential")
+# rateML <- expoPars$estimate["rate"]
+# 
+# stat2 <- stat_function(aes(x = xval, y = ..y..), fun = dexp, colour="blue", n = length(z$myVar), args = list(rate=rateML))
+#  p1 + stat + stat2
 ```
 
-
+## `uniform` probability density
 ```{r}
-gammaPars <- fitdistr(z$myVar,"gamma")
-shapeML <- gammaPars$estimate["shape"]
-rateML <- gammaPars$estimate["rate"]
-
-stat4 <- stat_function(aes(x = xval, y = ..y..), fun = dgamma, colour="brown", n = length(z$myVar), args = list(shape=shapeML, rate=rateML))
-p1 + stat + stat2 + stat3 + stat4
+# stat3 <- stat_function(aes(x = xval, y = ..y..), fun = dunif, colour="darkgreen", n = length(z$myVar), args = list(min=min(z$myVar), max=max(z$myVar)))
+#  p1 + stat + stat2 + stat3
 ```
 
+## `gamma` probability density
 ```{r}
-pSpecial <- ggplot(data=z, aes(x=myVar/(max(myVar + 0.1)), y=..density..)) +
-  geom_histogram(color="grey60",fill="cornsilk",size=0.2) + 
-  xlim(c(0,1)) +
-  geom_density(size=0.75,linetype="dotted")
-
-betaPars <- fitdistr(x=z$myVar/max(z$myVar + 0.1),start=list(shape1=1,shape2=2),"beta")
-shape1ML <- betaPars$estimate["shape1"]
-shape2ML <- betaPars$estimate["shape2"]
-
-statSpecial <- stat_function(aes(x = xval, y = ..y..), fun = dbeta, colour="orchid", n = length(z$myVar), args = list(shape1=shape1ML,shape2=shape2ML))
-pSpecial + statSpecial
+# gammaPars <- fitdistr(z$myVar,"gamma")
+# shapeML <- gammaPars$estimate["shape"]
+# rateML <- gammaPars$estimate["rate"]
+# 
+# stat4 <- stat_function(aes(x = xval, y = ..y..), fun = dgamma, colour="brown", n = length(z$myVar), args = list(shape=shapeML, rate=rateML))
+# p1 + stat + stat2 + stat3 + stat4
 ```
 
-
+## `beta` probability density
 ```{r}
+# pSpecial <- ggplot(data=z, aes(x=myVar/(max(myVar + 0.1)), y=..density..)) +
+#   geom_histogram(color="grey60",fill="cornsilk",size=0.2) + 
+#   xlim(c(0,1)) +
+#   geom_density(size=0.75,linetype="dotted")
+# 
+# betaPars <- fitdistr(x=z$myVar/max(z$myVar + 0.1),start=list(shape1=1,shape2=2),"beta")
+# shape1ML <- betaPars$estimate["shape1"]
+# shape2ML <- betaPars$estimate["shape2"]
+# 
+# statSpecial <- stat_function(aes(x = xval, y = ..y..), fun = dbeta, colour="orchid", n = length(z$myVar), args = list(shape1=shape1ML,shape2=shape2ML))
+# pSpecial + statSpecial
+```
+
+# My data
+
+## Read data
+
+```{r warning=FALSE}
 z <- read.csv("https://raw.githubusercontent.com/ZoopEcoEvo/champlain_seasonality/main/Output/Data/full_data.csv",header=TRUE,sep=",")
 str(z)
 summary(z)
 ```
 
+## Library packages
 ```{r}
 library(ggplot2) 
 library(MASS)
@@ -104,19 +115,23 @@ library(tidyverse)
 ```
 
 
-```{r}
+## 2. Histogram
+```{r message=FALSE, warning=FALSE}
 p1 <- ggplot(data=z, aes(x=size, y = ..density..)) +
-  geom_histogram(color="grey60",fill="cornsilk",size=0.1) 
+  geom_histogram(color="grey60",fill="cornsilk",size=0.1) +
+  labs(x = "Size (mm)", y = "Density") +
+  theme_minimal()
 print(p1)
 ```
 
-```{r}
+## Empirical density curve
+```{r message=FALSE, warning=FALSE}
 p1 <-  p1 +  geom_density(linetype="dotted",size=0.75)
 print(p1)
 ```
 
-
-```{r}
+## Parameters for `normal` probability density
+```{r message=FALSE, warning=FALSE}
 z <- na.omit(z)
 normPars <- fitdistr(z$size,"normal")
 print(normPars)
@@ -124,8 +139,8 @@ str(normPars)
 print(normPars$estimate["mean"])
 ```
 
-## normal probability density
-```{r}
+## `normal` probability density
+```{r message=FALSE, warning=FALSE}
 meanML <- normPars$estimate["mean"]
 sdML <- normPars$estimate["sd"]
 
@@ -135,8 +150,8 @@ stat <- stat_function(aes(x = size, y = ..y..), fun = dnorm, colour="red", n = l
 p1 + stat
 ```
 
-## exponential probability density
-```{r}
+## `exponential` probability density
+```{r message=FALSE, warning=FALSE}
 expoPars <- fitdistr(z$size,"exponential")
 rateML <- expoPars$estimate["rate"]
 
@@ -144,14 +159,14 @@ stat2 <- stat_function(aes(x = size, y = ..y..), fun = dexp, colour="blue", n = 
 p1 + stat + stat2
 ```
 
-## uniform probability denisty
-```{r}
+## `uniform` probability denisty
+```{r message=FALSE, warning=FALSE}
 stat3 <- stat_function(aes(x = size, y = ..y..), fun = dunif, colour="darkgreen", n = length(z$size), args = list(min=min(z$size), max=max(z$size)))
 p1 + stat + stat2 + stat3
 ```
 
-## gamma probability denisty
-```{r}
+## `gamma` probability denisty
+```{r message=FALSE, warning=FALSE}
 gammaPars <- fitdistr(z$size,"gamma")
 shapeML <- gammaPars$estimate["shape"]
 rateML <- gammaPars$estimate["rate"]
@@ -160,12 +175,13 @@ stat4 <- stat_function(aes(x = size, y = ..y..), fun = dgamma, colour="brown", n
 p1 + stat + stat2 + stat3 + stat4
 ```
 
-## beta probability density
-```{r}
+## `beta` probability density
+```{r message=FALSE, warning=FALSE}
 pSpecial <- ggplot(data=z, aes(x=size/(max(size + 0.1)), y=..density..)) +
-  geom_histogram(color="grey60",fill="cornsilk",size=0.2) + 
+  geom_histogram(color="grey60",fill="cornsilk",size=0.1) + 
   xlim(c(min=min(z$size), max=max(z$size))) +
-  geom_density(size=0.75,linetype="dotted")
+  geom_density(size=0.75,linetype="dotted") +
+  theme_minimal()
 
 betaPars <- fitdistr(x=z$size/max(z$size + 0.1),start=list(shape1=1,shape2=2),"beta")
 shape1ML <- betaPars$estimate["shape1"]
@@ -173,5 +189,21 @@ shape2ML <- betaPars$estimate["shape2"]
 
 statSpecial <- stat_function(aes(x = size, y = ..y..), fun = dbeta, colour="orchid", n = length(z$size), args = list(shape1=shape1ML,shape2=shape2ML))
 pSpecial + statSpecial
+```
+
+# 3. Best fitting distribution
+
+The `normal` and `gamma` probability distributions are the best fitting distributions. There is very little difference between them. `gamma` is slightly better because its peak is closer to the maximum y-values.
+
+# 4. New data set
+
+## `gamma` parameters
+```{r}
+gammaPars <- fitdistr(z$size,"gamma")
+shapeML <- gammaPars$estimate["shape"]
+rateML <- gammaPars$estimate["rate"]
+print(gammaPars$estimate["mean"])
+
+stat_function(aes(x = size, y = ..y..), fun = dgamma, colour="brown", n = length(z$size), args = list(shape=shapeML, rate=rateML))
 ```
 
