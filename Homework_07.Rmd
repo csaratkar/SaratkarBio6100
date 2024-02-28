@@ -1,0 +1,28 @@
+---
+title: "Homework #7"
+author: "Chanchal Saratkar"
+date: "2024-02-28"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r}
+library(tidyverse)
+library(dataRetrieval)
+full_data <- read.csv(file = "https://raw.githubusercontent.com/ZoopEcoEvo/champlain_seasonality/main/Output/Data/full_data.csv")
+
+full_data <- full_data %>% 
+ mutate("sp_name_sub" = str_replace_all(species, pattern = "_", replacement = " "),
+         sp_name_sub = str_to_sentence(sp_name_sub),
+         "sp_name" = word(sp_name_sub, start = 1, end = 2),
+         "sex" = case_when(word(sp_name_sub, start = 3, end = 3) == "male" ~ "male", word(sp_name_sub, start = 3, end = 3) == "juvenile" ~ "juvenile", TRUE ~ "female"))
+
+full_data[-which(rownames(full_data) == "Osphranticum labronectum"&rownames(full_data) == "Leptodora kindti")]
+
+ggplot(full_data, aes(x = ctmax, fill = sp_name)) +
+  facet_wrap(sp_name~.) +
+  geom_histogram()
+```
+
