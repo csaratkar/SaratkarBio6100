@@ -11,8 +11,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # 1. "Fake data"
 ```{r}
-# library(ggplot2)
-# library(MASS)
+ library(ggplot2)
+ library(MASS)
 ```
 
 ## Generate data
@@ -97,7 +97,7 @@ knitr::opts_chunk$set(echo = TRUE)
 # pSpecial + statSpecial
 ```
 
-# My data
+# 2. My data
 
 ## Read data
 
@@ -115,7 +115,7 @@ library(tidyverse)
 ```
 
 
-## 2. Histogram
+## Histogram
 ```{r message=FALSE, warning=FALSE}
 p1 <- ggplot(data=z, aes(x=size, y = ..density..)) +
   geom_histogram(color="grey60",fill="cornsilk",size=0.1) +
@@ -198,12 +198,30 @@ The `normal` and `gamma` probability distributions are the best fitting distribu
 # 4. New data set
 
 ## `gamma` parameters
-```{r}
+```{r message=FALSE, warning=FALSE}
+#Finding gamma parameters for the new generated data
 gammaPars <- fitdistr(z$size,"gamma")
 shapeML <- gammaPars$estimate["shape"]
 rateML <- gammaPars$estimate["rate"]
-print(gammaPars$estimate["mean"])
 
-stat_function(aes(x = size, y = ..y..), fun = dgamma, colour="brown", n = length(z$size), args = list(shape=shapeML, rate=rateML))
+z2 <- rgamma(271, shape = 36.47591, rate = 45.64064)
+z2 <- data.frame(1:271, z2)
+names(z2) <- list("ID", "size")
+
+# Plotting
+p2 <- ggplot(data=z2, aes(x=size, y = ..density..)) +
+  geom_histogram(color="grey60",fill="cornsilk",size=0.1) +
+  labs(x = "Size (mm)", y = "Density") +
+  theme_minimal() +
+  xlim(.5, 2.25)
+
+stat5 <- stat_function(aes(x = size, y = ..y..), fun = dgamma, colour="brown", n = length(z$size), args = list(shape=shapeML, rate=rateML))
+
+p2 + stat5
+```
+
+## Orginal data
+```{r message=FALSE, warning=FALSE}
+p1 + stat4
 ```
 

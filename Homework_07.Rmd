@@ -11,6 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 library(tidyverse)
 library(dataRetrieval)
+library(tables)
 full_data <- read.csv(file = "https://raw.githubusercontent.com/ZoopEcoEvo/champlain_seasonality/main/Output/Data/full_data.csv")
 
 full_data <- full_data %>% 
@@ -19,10 +20,42 @@ full_data <- full_data %>%
          "sp_name" = word(sp_name_sub, start = 1, end = 2),
          "sex" = case_when(word(sp_name_sub, start = 3, end = 3) == "male" ~ "male", word(sp_name_sub, start = 3, end = 3) == "juvenile" ~ "juvenile", TRUE ~ "female"))
 
-full_data[-which(rownames(full_data) == "Osphranticum labronectum"&rownames(full_data) == "Leptodora kindti")]
 
-ggplot(full_data, aes(x = ctmax, fill = sp_name)) +
+new_data<- subset(full_data, sp_name != "Osphranticum labronectum"&sp_name !="Leptodora kindti")
+
+new_data <- na.omit(new_data$ctmax)
+
+ggplot(new_data, aes(x = ctmax, fill = sp_name)) +
   facet_wrap(sp_name~.) +
   geom_histogram()
+
+print(table(new_data["sp_name"]))
+
+
+print(new_data %>%
+  group_by(sp_name) %>%
+  summarise_at(vars(ctmax), list(mean = mean, sd = sd), na.rm = T))
+
+epischura <- rnorm(82, mean = 32.14904, sd = 2.277563)
+l_minutus <- rnorm(249, mean = 32.12152, sd = 1.979980)
+l_sicilis <- rnorm(319, mean = 29.14676, sd = 1.963026)
+limnocalanus <- rnorm(64, mean = 23.00699, sd = 2.287191)
+senecella <- rnorm(17, mean = 20.17718, sd = 3.041218)
+skistodiaptomus <- rnorm(234, mean = 36.13053, sd = 2.579344)
+
+
+length(epischura) = length(l_sicilis)
+length(l_minutus) = length(l_sicilis)
+length(limnocalanus) = length(l_sicilis)
+length(senecella) = length(l_sicilis)
+length(skistodiaptomus) = length(l_sicilis)
+
+gen_data <- cbind(ID = 1:319, epischura, l_minutus, l_sicilis, limnocalanus, senecella, skistodiaptomus)
+
+wide_data <- pivot_wider(new_data)
+
+ggplot(data = gen_data, aes(x = )) +
+  geom_histogram()
+
 ```
 
