@@ -42,19 +42,32 @@ l_sicilis <- rnorm(319, mean = 29.14676, sd = 1.963026)
 limnocalanus <- rnorm(64, mean = 23.00699, sd = 2.287191)
 senecella <- rnorm(17, mean = 20.17718, sd = 3.041218)
 skistodiaptomus <- rnorm(234, mean = 36.13053, sd = 2.579344)
+# 
+# length(epischura) = length(l_sicilis)
+# length(l_minutus) = length(l_sicilis)
+# length(limnocalanus) = length(l_sicilis)
+# length(senecella) = length(l_sicilis)
+# length(skistodiaptomus) = length(l_sicilis)
+# 
+# gen_data3 <-data.frame(c(replicate(82, "epischura"), replicate(249, "l_minutus"), replicate(319, "l_sicilis")), c(epischura, l_minutus, l_sicilis))
+# 
+# df <- cbind(c(replicate(82, "epischura"), replicate(249, "l_minutus")), c(epischura, l_minutus))
+# w <- cbind(c(replicate(82, "epischura"), replicate(249, "l_minutus")), x)
+# 
+# gen_data <- cbind(ID = 1:319, epischura, l_minutus, l_sicilis, limnocalanus, senecella, skistodiaptomus)
+# 
+# 
+# gen_data2 <- rbind(ID = 1:319, epischura, l_minutus, l_sicilis, limnocalanus, senecella, skistodiaptomus)
+# str(gen_data)
+# 
+# wide_data <- pivot_longer(gen_data2)
 
+plotdata <- cbind(c(replicate(82, "epischura"), replicate(249, "l_minutus"), replicate(319, "l_sicilis"), replicate(64, "limnocalanus"), replicate(234, "skistodiaptomus")), c(epischura, l_minutus, l_sicilis, limnocalanus, skistodiaptomus))
 
-length(epischura) = length(l_sicilis)
-length(l_minutus) = length(l_sicilis)
-length(limnocalanus) = length(l_sicilis)
-length(senecella) = length(l_sicilis)
-length(skistodiaptomus) = length(l_sicilis)
+colnames(plotdata) <- list("species", "size")
+plotdata <- as.data.frame(plotdata)
 
-gen_data <- cbind(ID = 1:319, epischura, l_minutus, l_sicilis, limnocalanus, senecella, skistodiaptomus)
-
-wide_data <- pivot_wider(new_data)
-
-ggplot(data = gen_data, aes(x = )) +
+ggplot(data = plotdata, aes(x = size, fill = species)) +
   geom_histogram()
 
 ```
