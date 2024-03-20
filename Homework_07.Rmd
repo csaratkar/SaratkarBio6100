@@ -68,7 +68,8 @@ colnames(plotdata) <- list("species", "size")
 plotdata <- as.data.frame(plotdata)
 
 ggplot(data = plotdata, aes(x = size, fill = species)) +
-  geom_histogram()
+  # facet_wrap(species~.) +
+  geom_histogram(aes(y = after_stat(density)))
 
 ```
 

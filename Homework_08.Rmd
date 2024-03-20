@@ -1,0 +1,87 @@
+---
+title: 'Homework #8'
+author: "Chanchal Saratkar"
+date: "2024-03-20"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 1. 
+
+There are 150 observations with 5 variables. 
+```{r message=FALSE}
+library(tidyverse)
+data("iris")
+class(iris)
+```
+
+## 2. 
+
+There are 56 observations and 5 variables.
+```{r}
+iris1 <- filter(iris, Species == "virginica"| Species == "versicolor")
+
+iris1 <- filter(iris1, Sepal.Length > 6 & Sepal.Width > 2.5)
+
+head(iris1)
+```
+
+## 3. 
+
+There are 56 observations and 3 variables.
+```{r}
+iris2 <- select(iris1, Species, Sepal.Length, Sepal.Width)
+
+head(iris2)
+```
+
+## 4. 
+```{r}
+iris3 <- arrange(iris2, by = desc(Sepal.Length))
+head(iris3)
+```
+
+## 5.
+
+There are 56 observations and 4 variables.
+```{r}
+iris4 <- mutate(iris3, Area = Sepal.Length*Sepal.Width)
+
+head(iris4)
+```
+
+## 6.
+```{r}
+iris5 <- summarise(iris4, meanLength = mean(Sepal.Length), meanWidth = mean(Sepal.Width), number = n())
+print(iris5)
+```
+
+
+## 7.
+```{r}
+iris6 <- summary(iris4)
+print(iris6)
+```
+
+## 8. 
+```{r}
+irisFinal <- iris %>% 
+  filter(Species == "virginica"| Species == "versicolor") %>%
+  filter(Sepal.Length > 6 & Sepal.Width > 2.5) %>% 
+  select(Species, Sepal.Length, Sepal.Width) %>% 
+  arrange(by = desc(Sepal.Length)) %>% 
+  mutate(Area = Sepal.Length*Sepal.Width) %>% 
+  summary()
+print(irisFinal)
+```
+
+## 9.
+```{r}
+irisLong <- iris %>% 
+  pivot_longer(cols = Sepal.Length:Petal.Width, names_to = "Measure", values_to = "Value")
+head(irisLong)
+```
+
