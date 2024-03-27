@@ -1,0 +1,52 @@
+---
+title: 'Homework #9'
+author: "Chanchal Saratkar"
+date: "2024-03-27"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(dataRetrieval)
+library(tables)
+
+
+full_data <- read.csv(file = "https://raw.githubusercontent.com/ZoopEcoEvo/champlain_seasonality/main/Output/Data/full_data.csv")
+
+full_data <- full_data %>% 
+ mutate("sp_name_sub" = str_replace_all(species, pattern = "_", replacement = " "),
+         sp_name_sub = str_to_sentence(sp_name_sub),
+         "sp_name" = word(sp_name_sub, start = 1, end = 2),
+         "sex" = case_when(word(sp_name_sub, start = 3, end = 3) == "male" ~ "male", word(sp_name_sub, start = 3, end = 3) == "juvenile" ~ "juvenile", TRUE ~ "female"))
+
+
+new_data<- subset(full_data, sp_name != "Osphranticum labronectum"&sp_name !="Leptodora kindti") %>% 
+  select(size = size, sp_name = sp_name) %>% 
+  arrange(sp_name)
+
+# bind_cols(sp_mean, sp_sd, .name_repair = "unique", )
+
+
+
+gen_data <- function (size_data) {
+  
+  sp_mean <- aggregate(x = new_data$size, by = list(new_data$sp_name), FUN = mean, na.rm = TRUE)
+  colnames(sp_mean) <- c("Species", "Mean")
+  
+  sp_sd <- aggregate(x = new_data$size, by = list(new_data$sp_name), FUN = sd, na.rm = TRUE)
+  colnames(sp_sd) <- c("Species", "SD")
+  
+  sp_parm <- merge(sp_mean, sp_sd, by = "Species")
+  
+  sp_parm %>% 
+    rnorm(1099, mean = sp_mean, sd = sp_sd)
+  
+}
+  
+
+```
+

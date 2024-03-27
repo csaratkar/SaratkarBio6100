@@ -11,9 +11,9 @@
 
 <meta name="author" content="Chanchal Saratkar" />
 
-<meta name="date" content="2024-01-24" />
+<meta name="date" content="2024-03-27" />
 
-<title>index</title>
+<title>Homework #9</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -350,21 +350,59 @@ display: none;
 
 
 
-<h1 class="title toc-ignore">index</h1>
+<h1 class="title toc-ignore">Homework #9</h1>
 <h4 class="author">Chanchal Saratkar</h4>
-<h4 class="date">2024-01-24</h4>
+<h4 class="date">2024-03-27</h4>
 
 </div>
 
 
-<p>Link for assignment 1: <a href="newpage.html">Link</a></p>
-<p><strong>31 January 2024</strong>: Link for assignment 3: <a href="Homework_03.html">Link</a></p>
-<p><strong>7 February 2024</strong>: Link for assignment 4: <a href="Homework_04.html">Link</a></p>
-<p><strong>14 February 2024</strong>: Link for assignment 5: <a href="Homework_05.html">Link</a></p>
-<p><strong>21 February 2024</strong>: Link for assignment 6: <a href="Homework_06.html">Link</a></p>
-<p><strong>28 February 2024</strong>: Link for assignment 7: <a href="Homework_07.html">Link</a></p>
-<p><strong>20 March 2024</strong>: Link for assignment 8: <a href="Homework_08.html">Link</a></p>
-<p><strong>27 March 2024</strong>: Link for assignment 9: <a href="Homework_09.html">Link</a></p>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+## ✔ dplyr     1.1.4     ✔ readr     2.1.4
+## ✔ forcats   1.0.0     ✔ stringr   1.5.1
+## ✔ ggplot2   3.4.4     ✔ tibble    3.2.1
+## ✔ lubridate 1.9.3     ✔ tidyr     1.3.0
+## ✔ purrr     1.0.2     
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
+## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+<pre class="r"><code>library(dataRetrieval)
+library(tables)
+
+
+full_data &lt;- read.csv(file = &quot;https://raw.githubusercontent.com/ZoopEcoEvo/champlain_seasonality/main/Output/Data/full_data.csv&quot;)
+
+full_data &lt;- full_data %&gt;% 
+ mutate(&quot;sp_name_sub&quot; = str_replace_all(species, pattern = &quot;_&quot;, replacement = &quot; &quot;),
+         sp_name_sub = str_to_sentence(sp_name_sub),
+         &quot;sp_name&quot; = word(sp_name_sub, start = 1, end = 2),
+         &quot;sex&quot; = case_when(word(sp_name_sub, start = 3, end = 3) == &quot;male&quot; ~ &quot;male&quot;, word(sp_name_sub, start = 3, end = 3) == &quot;juvenile&quot; ~ &quot;juvenile&quot;, TRUE ~ &quot;female&quot;))
+
+
+new_data&lt;- subset(full_data, sp_name != &quot;Osphranticum labronectum&quot;&amp;sp_name !=&quot;Leptodora kindti&quot;) %&gt;% 
+  select(size = size, sp_name = sp_name) %&gt;% 
+  arrange(sp_name)
+
+# bind_cols(sp_mean, sp_sd, .name_repair = &quot;unique&quot;, )
+
+
+
+gen_data &lt;- function (size_data) {
+  
+  sp_mean &lt;- aggregate(x = new_data$size, by = list(new_data$sp_name), FUN = mean, na.rm = TRUE)
+  colnames(sp_mean) &lt;- c(&quot;Species&quot;, &quot;Mean&quot;)
+  
+  sp_sd &lt;- aggregate(x = new_data$size, by = list(new_data$sp_name), FUN = sd, na.rm = TRUE)
+  colnames(sp_sd) &lt;- c(&quot;Species&quot;, &quot;SD&quot;)
+  
+  sp_parm &lt;- merge(sp_mean, sp_sd, by = &quot;Species&quot;)
+  
+  sp_parm %&gt;% 
+    rnorm(1099, mean = sp_mean, sd = sp_sd)
+  
+}</code></pre>
 
 
 

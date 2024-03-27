@@ -40,7 +40,7 @@ epischura <- rnorm(82, mean = 32.14904, sd = 2.277563)
 l_minutus <- rnorm(249, mean = 32.12152, sd = 1.979980)
 l_sicilis <- rnorm(319, mean = 29.14676, sd = 1.963026)
 limnocalanus <- rnorm(64, mean = 23.00699, sd = 2.287191)
-senecella <- rnorm(17, mean = 20.17718, sd = 3.041218)
+# senecella <- rnorm(17, mean = 20.17718, sd = 3.041218)
 skistodiaptomus <- rnorm(234, mean = 36.13053, sd = 2.579344)
 # 
 # length(epischura) = length(l_sicilis)
@@ -66,6 +66,9 @@ plotdata <- cbind(c(replicate(82, "epischura"), replicate(249, "l_minutus"), rep
 
 colnames(plotdata) <- list("species", "size")
 plotdata <- as.data.frame(plotdata)
+
+typeof(x$size)
+x <- as.data.frame(sapply(plotdata$size, as.numeric))
 
 ggplot(data = plotdata, aes(x = size, fill = species)) +
   # facet_wrap(species~.) +
