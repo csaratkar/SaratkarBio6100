@@ -1,0 +1,32 @@
+---
+title: 'Homework #10'
+author: "Chanchal Saratkar"
+date: "2024-04-03"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+## 1.
+```{r}
+counter <- 0
+bi_nom <- rbinom(20,30,.5)
+
+for (i in length(bi_nom)) {
+  if (bi_nom[i] %% 10 == 0) next
+    counter <- 1 + counter
+  return(counter)
+}
+```
+
+
+## 2.
+```{r}
+print(counter <- length(bi_nom[bi_nom %% 10 == 0]) + counter)
+```
+
+```{r}
+matrix(data = , nrow = 2, ncol = 2)
+```
+
