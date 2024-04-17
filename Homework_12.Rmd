@@ -1,0 +1,69 @@
+---
+title: 'Homework #12'
+author: "Chanchal Saratkar"
+date: "2024-04-17"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r message=FALSE}
+library(tidyverse)
+library(lubridate)
+library(slider)
+library(dataRetrieval)
+library(ggplot2)
+library(stringr)
+library(cowplot)
+
+full_data = read.csv("https://raw.githubusercontent.com/ZoopEcoEvo/champlain_seasonality/main/Output/Data/full_data.csv") %>% 
+  mutate(collection_date = as.Date(collection_date))
+
+split_names = full_data %>% 
+  mutate("sp_name_sub" = str_replace_all(species, pattern = "_", replacement = " "),"sp_name" = str_to_sentence(word(sp_name_sub, start = 1, end = 2)), "sex" = case_when(word(sp_name_sub, start = 3, end = 3) == "male" ~ "male", word(sp_name_sub, start = 3, end = 3) == "juvenile" ~ "juvenile", TRUE ~ "female"))
+
+
+species_cols = c("Leptodiaptomus minutus" = "#ffd029",
+                 "Leptodiaptomus minutus male" = "#ffe896",
+                 "Leptodiaptomus sicilis" = "#D86F29",
+                 "Leptodiaptomus sicilis male" = "#E28C00",
+                 "Skistodiaptomus oregonensis" = "#C5C35A",
+                 "Skistodiaptomus oregonensis male" = "#e6e6aa",
+                 "Epischura lacustris juvenile" = "plum1", 
+                 "Epischura lacustris male" = "plum3", 
+                 "Epischura lacustris" = "plum4", 
+                 "Limnocalanus macrurus" = "skyblue4", 
+                 "Limnocalanus macrurus male" = "skyblue3", 
+                 "Limnocalanus macrurus juvenile" = "skyblue", 
+                 "Senecella calanoides" = "darkseagreen3")
+
+new_data <- filter(split_names, sp_name!="Leptodora kindti"&sp_name!="Osphranticum labronectum")
+```
+
+```{r message=FALSE, warning=FALSE}
+ctmax_coltemp <- ggplot(data = new_data) +
+  aes(x = collection_temp, y = ctmax, color = sp_name) +
+  geom_smooth(method="lm") +
+  facet_wrap(~sp_name) +
+  scale_color_manual(values = species_cols) +
+  labs(x = "Collection Temp (°C)", y = "CTmax (°C)", color = "Species", title = "Linear regression of Collection Temp (°C) and CTmax (°C) by species of copepod")
+print(ctmax_coltemp)
+
+
+ggsave(plot = ctmax_coltemp, filename = "CTmax_CollectionTemp.pdf", width = 6, height = 4, units = "in", device = "pdf")
+```
+
+```{r message=FALSE, warning=FALSE}
+ctmax_size <- ggplot(data = new_data) +
+  aes(x = size, y = ctmax, color = sp_name) +
+  geom_point() +
+  scale_color_manual(values = species_cols) +
+  theme_bw() +
+   labs(x = "Size (mm)", y = "CTmax(°C)", color = "Species", title = "Scatterplot of Collection Temp (°C) and CTmax (°C) by species of copepod")
+print(ctmax_size)
+
+ggsave(plot = ctmax_size, filename = "CTmax_Size.pdf", width = 6, height = 4, units = "in", device = "pdf")
+```
+
