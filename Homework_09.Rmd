@@ -30,23 +30,71 @@ new_data<- subset(full_data, sp_name != "Osphranticum labronectum"&sp_name !="Le
 
 # bind_cols(sp_mean, sp_sd, .name_repair = "unique", )
 
-
-
-gen_data <- function (size_data) {
-  
-  sp_mean <- aggregate(x = new_data$size, by = list(new_data$sp_name), FUN = mean, na.rm = TRUE)
-  colnames(sp_mean) <- c("Species", "Mean")
+sp_mean <- aggregate(x = new_data$size, by = list(new_data$sp_name), FUN = mean, na.rm = TRUE)
+colnames(sp_mean) <- c("Species", "Mean")
   
   sp_sd <- aggregate(x = new_data$size, by = list(new_data$sp_name), FUN = sd, na.rm = TRUE)
   colnames(sp_sd) <- c("Species", "SD")
   
+all_fake_data <- c()
+
+gen_data <- function (data = new_data, num = 150, mean = sp_parm$Mean, sd = sp_parm$SD) {
+  
   sp_parm <- merge(sp_mean, sp_sd, by = "Species")
   
-  sp_parm %>% 
-    rnorm(1099, mean = sp_mean, sd = sp_sd)
+  # sp_parm %>% 
+  #   rnorm(n = num, mean = Mean, sd = SD)
+  # print(sp_parm)
   
+  #rand <- sp_parm %>% rnorm(n = num, mean = Mean, sd = SD)
+  
+  for(i in 1:6){
+    fake_data <- cbind(g[i], rep(sp_parm[i,1], 150))
+    # fake_data <- sp_parm[i,] %>% 
+    #   rnorm(n = num, mean = Mean, sd = SD)
+    # 
+    # fake_data <- cbind(rep(sp_name[i,1]), fake_data)
+    all_fake_data <- rbind(all_fake_data, fake_data)
+  }
+  return(all_fake_data)
 }
   
+g <-gen_data(num = 1000, mean = 1)
 
+d <- matrix(data = r, nrow = 150, ncol = 6)
+r <- cbind(rep(rnorm(n = 150, mean = 5, sd = .5), 6))
+
+
+
+
+gen_data <- function (data = new_data, num = 150, mean = sp_parm$Mean, sd = sp_parm$SD) {
+  
+  sp_parm <- merge(sp_mean, sp_sd, by = "Species")
+  
+    rand <- cbind(rep(rnorm(n = num, mean = sp_parm$Mean, sd = sp_parm$SD)))
+    fake_data <- matrix(data = rand, nrow = num, ncol = 6)
+    colnames(fake_data) <- c("Epishcura","L_minutus","L_sicilis","Limnocalanus","Senecella","Skistodiaptomus")
+    print(fake_data)
+}
+
+fake_data <- gen_data(data = new_data, num = 100, mean = sp_parm$Mean, sd = sp_parm$SD)
+```
+
+```{r}
+gen_data2 <- function (data = new_data, num = 150, mean_epis , mean_lmin, mean_lsicl , sd = sp_parm$SD) {
+  
+  sp_parm <- merge(sp_mean, sp_sd, by = "Species")
+  
+  rand_epis <- rep(rnorm(n = num, mean = mean_epis, sd = sp_parm$SD))
+   rand_lmin <- rep(rnorm(n = num, mean = mean_lmin, sd = sp_parm$SD))
+   rand_lsicl <- rep(rnorm(n = num, mean = mean_lsicl, sd = sp_parm$SD))
+   
+   fake_data2 <- cbind(rand_epis, rand_lmin, rand_lsicl)
+   colname(fake_data) <- c("Epsichura", "L_minutus", "L_sicilis")
+   
+    print(fake_data2)
+}
+
+fake_data2 <- gen_data(data = new_data, num = 150,  mean_epis = sp_parm[1,2], mean_lmin =sp_parm[2,2], mean_lsicl = sp_parm[3,2], sd = sp_parm$SD)
 ```
 

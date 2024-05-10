@@ -10,7 +10,118 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r}
-# for (i in )
-#   list.files()
+library(tidyverse)
+
+source("/Users/PC/Desktop/StrategicCodingPractices/StrategicCodingPractices/barracudar/DataTableTemplate.R")
+source("/Users/PC/Desktop/StrategicCodingPractices/StrategicCodingPractices/barracudar/AddFolder.R")
+source("/Users/PC/Desktop/StrategicCodingPractices/StrategicCodingPractices/barracudar/BuildFunction.R")
+source("/Users/PC/Desktop/StrategicCodingPractices/StrategicCodingPractices/barracudar/MetaDataTemplate.R")
+source("/Users/PC/Desktop/StrategicCodingPractices/StrategicCodingPractices/barracudar/CreatePaddedLabel.R")
+source("/Users/PC/Desktop/StrategicCodingPractices/StrategicCodingPractices/barracudar/InitiateSeed.R")
+source("/Users/PC/Desktop/StrategicCodingPractices/StrategicCodingPractices/barracudar/SetUpLog.R")
+source("/Users/PC/Desktop/StrategicCodingPractices/StrategicCodingPractices/barracudar/SourceBatch.R")
+
+source("/Users/PC/Desktop/StrategicCodingPractices/StrategicCodingPractices/barracudar/QBox.R")
+source("/Users/PC/Desktop/StrategicCodingPractices/StrategicCodingPractices/barracudar/QCon1.R")
+source("/Users/PC/Desktop/StrategicCodingPractices/StrategicCodingPractices/barracudar/QCon2.R")
+source("/Users/PC/Desktop/StrategicCodingPractices/StrategicCodingPractices/barracudar/QHist.R")
+source("/Users/PC/Desktop/StrategicCodingPractices/StrategicCodingPractices/barracudar/QLogis.R")
+source("/Users/PC/Desktop/StrategicCodingPractices/StrategicCodingPractices/barracudar/QScat.R")
+source("/Users/PC/Desktop/StrategicCodingPractices/StrategicCodingPractices/barracudar/QBub.R")
+source("/Users/PC/Desktop/StrategicCodingPractices/StrategicCodingPractices/barracudar/QContour.R")
+
+initiate_seed()
+
+bird_data <- c()
+
+files_list <- list.files(path = "./NEON_count-landbird/NEON_count-landbird", pattern ="BART")
+
+for(i in length(files_list)) {
+  all_paths <- paste0("./NEON_count-landbird/NEON_count-landbird/", files_list[i])
+  bird_data <- c(bird_data, list.files(pattern = "countdata"))
+}
+
+build_function(function_name = c("clean_data", "extract_year", "abundance", "sp_richness"))
+
+add_folder(folder_names = "CleanedData")
+
+
+source_batch("/Users/PC/Desktop/StrategicCodingPractices/StrategicCodingPractices/Functions")
+
+source("Functions/CleanDat.R")
+source(Functions/"clean_data")
+source(Functions/"extract_year")
+source(Functions/"abundance")
+source(Functions/"sp_richness")
+
+clean_data()
+
+sum_stat <- data.frame(file_name = rep(NA, 9), abundance = rep(NA, 9), sp_rich = rep(NA,9), year = rep(NA, 9))
+
+#########################################################
+# FUNCTION: clean_data
+# 
+# inputs:
+# outputs:
+#--------------------------------------------------------
+clean_data <- function(name = bird_data) {
+  for(i in 1:9) {
+   # setwd(paste0("C:Useres/PC/Desktop/SaratkarBio6100/NEON_count-landbird/", files_list[i]))
+    x <- read.csv(bird_data[i], header=TRUE, comment.char = "#")
+    cleaned <- x[complete.cases(x["taxonID"]),]
+    #filter(x, targetTaxaPresent == "Y")
+    years <- str_extract(bird_data, pattern="20\\d{2}")
+   # y <- paste0("BART_", years, "clean")
+    # setwd("C:/Users/PC/Desktop/SaratkarBio6100/CleanedData/")
+    write.csv(cleaned, paste0("BARTclean_", years[i], ".csv"))
+  }
+  
+}
+
+full_data <- clean_data(files_list)
+#########################################################
+```
+
+```{r}
+#######################################################
+# FUNCTION: extract_year()
+# inputs:
+# outputs:
+#------------------------------------------------------
+
+extract_year <- function(filename = "CleanedData") {
+  e <- list.files(path = "C:/Users/PC/Desktop/SaratkarBio6100/CleanedData/")
+  y <- str_extract_all(e, pattern="20\\d{2}")
+  print(y)
+}
+#######################################################
+
+extract_year(filename = ("CleanData"))
+```
+
+```{r}
+#######################################################
+# FUNCTION: abundance()
+# inputs:
+# outputs:
+#------------------------------------------------------
+abundance <- function(filename = "CleanedData") {
+  for(i in 1:8){e <- list.files(path = "C:/Users/PC/Desktop/SaratkarBio6100/CleanedData/")
+  s <- read.csv(paste(e[i]), header = TRUE)
+  abun <- c()
+  abun <- abun + nrow(s)}
+  print(abun)
+}
+
+abundance <- function(directory) {
+  # e <- list.files(path = "C:/Users/PC/Desktop/SaratkarBio6100/CleanedData/")
+  s <- read.csv(directory, header = TRUE)
+  abun <- c()
+  abun <- abun + nrow(s)
+  print(abun)
+}
+#######################################################
+abundance(filename = "CleanedData")
+
 ```
 

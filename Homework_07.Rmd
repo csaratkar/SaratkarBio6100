@@ -23,18 +23,34 @@ full_data <- full_data %>%
 
 new_data<- subset(full_data, sp_name != "Osphranticum labronectum"&sp_name !="Leptodora kindti")
 
-new_data <- na.omit(new_data$ctmax)
+# new_data <- na.omit(new_data$ctmax)
 
-ggplot(new_data, aes(x = ctmax, fill = sp_name)) +
-  facet_wrap(sp_name~.) +
-  geom_histogram()
+# ggplot(new_data, aes(x = ctmax, fill = sp_name)) +
+#   facet_wrap(sp_name~.) +
+#   geom_histogram()
 
 print(table(new_data["sp_name"]))
 
+species_cols = c("l_minutus" = "#ffd029",
+                 "Leptodiaptomus minutus male" = "#ffe896",
+                 "l_sicilis" = "#D86F29",
+                 "Leptodiaptomus sicilis male" = "#E28C00",
+                 "skistodiaptomus" = "#C5C35A",
+                 "Skistodiaptomus oregonensis male" = "#e6e6aa",
+                 "Epischura lacustris juvenile" = "plum1", 
+                 "Epischura lacustris male" = "plum3", 
+                 "epischura" = "plum4", 
+                 "limnocalanus" = "skyblue4", 
+                 "Limnocalanus macrurus male" = "skyblue3", 
+                 "Limnocalanus macrurus juvenile" = "skyblue", 
+                 "Senecella calanoides" = "darkseagreen3")
 
-print(new_data %>%
-  group_by(sp_name) %>%
-  summarise_at(vars(ctmax), list(mean = mean, sd = sd), na.rm = T))
+# print(new_data %>%
+#   group_by(sp_name) %>%
+#   summarise_at(vars(ctmax), list(mean = mean, sd = sd), na.rm = T))
+
+
+print(aggregate(x = new_data$size, by = list(new_data$sp_name), FUN = sd, na.rm = T))
 
 epischura <- rnorm(82, mean = 32.14904, sd = 2.277563)
 l_minutus <- rnorm(249, mean = 32.12152, sd = 1.979980)
@@ -42,6 +58,14 @@ l_sicilis <- rnorm(319, mean = 29.14676, sd = 1.963026)
 limnocalanus <- rnorm(64, mean = 23.00699, sd = 2.287191)
 # senecella <- rnorm(17, mean = 20.17718, sd = 3.041218)
 skistodiaptomus <- rnorm(234, mean = 36.13053, sd = 2.579344)
+
+
+epischura2 <- rnorm(82, mean = 0.9720556, sd = 0.16662481)
+l_minutus2 <- rnorm(249, mean = 0.6745517, sd = 0.06077019)
+l_sicilis2 <- rnorm(319, mean = 0.8283355, sd = 0.10996815)
+limnocalanus2 <- rnorm(64, mean = 1.4042500, sd = 0.10202573)
+# senecella <- rnorm(17, mean = 20.17718, sd = 3.041218)
+skistodiaptomus2 <- rnorm(234, mean = 0.8774213, sd = 0.11012199)
 # 
 # length(epischura) = length(l_sicilis)
 # length(l_minutus) = length(l_sicilis)
@@ -62,17 +86,66 @@ skistodiaptomus <- rnorm(234, mean = 36.13053, sd = 2.579344)
 # 
 # wide_data <- pivot_longer(gen_data2)
 
-plotdata <- cbind(c(replicate(82, "epischura"), replicate(249, "l_minutus"), replicate(319, "l_sicilis"), replicate(64, "limnocalanus"), replicate(234, "skistodiaptomus")), c(epischura, l_minutus, l_sicilis, limnocalanus, skistodiaptomus))
 
-colnames(plotdata) <- list("species", "size")
+y <- cbind(c(rnorm(82, mean = 0.9720556, sd = 0.16662481), rnorm(249, mean = 0.6745517, sd = 0.06077019), rnorm(319, mean = 0.8283355, sd = 0.10996815), rnorm(64, mean = 1.4042500, rnorm(234, mean = 0.8774213, sd = 0.11012199)), "skistodiaptomus2"), c(replicate(82, "epischura"), replicate(249, "l_minutus"), replicate(319, "l_sicilis"), replicate(64, "limnocalanus"), replicate(234, "skistodiaptomus")), c(epischura, l_minutus, l_sicilis, limnocalanus, skistodiaptomus))
+
+str(y)
+str(epischura2)
+
+# h <- cbind(y, c(replicate(82, "Epischura2"), replicate(249, "L_minutus"), replicate(319, "L_sicilis"), replicate(64, "Limnocalanus"), replicate(234, "Skistodiaptomus")), c(Epischura, L_minutus, L_sicilis, Limnocalanus, Skistodiaptomus))
+
+
+plotdata <- cbind(c(rnorm(82, mean = 0.9720556, sd = 0.16662481), rnorm(249, mean = 0.6745517, sd = 0.06077019), rnorm(319, mean = 0.8283355, sd = 0.10996815), rnorm(64, mean = 1.4042500, rnorm(234, mean = 0.8774213, sd = 0.11012199)), "skistodiaptomus2"), c(replicate(82, "epischura"), replicate(249, "l_minutus"), replicate(319, "l_sicilis"), replicate(64, "limnocalanus"), replicate(234, "skistodiaptomus")), c(epischura, l_minutus, l_sicilis, limnocalanus, skistodiaptomus))
+
+colnames(plotdata) <- list("size", "species", "ctmax")
 plotdata <- as.data.frame(plotdata)
+str(plotdata)
 
-typeof(x$size)
 x <- as.data.frame(sapply(plotdata$size, as.numeric))
+typeof(x$size)
 
-ggplot(data = plotdata, aes(x = size, fill = species)) +
-  # facet_wrap(species~.) +
-  geom_histogram(aes(y = after_stat(density)))
 
+plotdata <- transform(plotdata, ctmax = as.numeric(ctmax))
+plotdata <- transform(plotdata, size = as.numeric(size))
+
+# 
+# plotdata[,2] <- lapply(plotdata[,2], as.numeric)
+# 
+# plotdata %>% 
+#   mutate(across(2, as.numeric))
+
+# freqpoly
+ggplot(data = plotdata, aes(x = size, y = ctmax))+
+  geom_smooth()
+
+# Hist for all
+# ggplot(data = plotdata, aes(x = size, y = ctmax)) +
+#   geom_histogram(stat = "bin")
+
+ggplot(data = plotdata, aes(x = size, y = ctmax, fill = species)) +
+  geom_smooth() +
+  facet_wrap(species~.) +
+  scale_color_manual(values = species_cols)
+  # geom_histogram(aes(y = after_stat(density)))
+
+epischura <- filter(plotdata, species == "epischura")
+
+print(lm(ctmax ~ size, data = epischura))
+
+l_minutus <- filter(plotdata, species == "l_minutus")
+
+print(lm(ctmax ~ size, data = l_minutus))
+
+l_sicilis <- filter(plotdata, species == "l_sicilis")
+
+print(lm(ctmax ~ size, data = l_sicilis))
+
+limnocalanus <- filter(plotdata, species == "limnocalanus")
+
+print(lm(ctmax ~ size, data = limnocalanus))
+
+skistodiaptomus <- filter(plotdata, species == "skistodiaptomus")
+
+print(lm(ctmax ~ size, data = skistodiaptomus))
 ```
 

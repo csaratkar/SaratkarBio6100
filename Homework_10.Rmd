@@ -11,22 +11,84 @@ knitr::opts_chunk$set(echo = TRUE)
 ## 1.
 ```{r}
 counter <- 0
-bi_nom <- rbinom(20,30,.5)
+bi_nom <- rbinom(20,0:9,.5)
 
-for (i in length(bi_nom)) {
-  if (bi_nom[i] %% 10 == 0) next
-    counter <- 1 + counter
-  return(counter)
+for (i in seq_along(bi_nom)) {
+  if (bi_nom[i] == 0) {
+    counter <- 1 + counter}
 }
+print(counter)
 ```
 
 
 ## 2.
 ```{r}
-print(counter <- length(bi_nom[bi_nom %% 10 == 0]) + counter)
+counter <- 0
+
+print(counter <- length(bi_nom[bi_nom == 0]) + counter)
 ```
 
 ```{r}
-matrix(data = , nrow = 2, ncol = 2)
+#########################################################
+# FUNCTION: create_matrix
+# a make with values that equal row times column
+# inputs:
+# outputs: 
+#--------------------------------------------------------
+create_matrix <- function(rownum = 5, colnum = 5){
+  times_table <- matrix(nrow = rownum, ncol = colnum)
+  for(i in 1:nrow(times_table)) {
+    for(j in 1:ncol(times_table)) {
+      times_table[i,j] <- i*j
+    }
+  }
+  return(times_table)
+}
+#########################################################
+
+create_matrix(rownum = 5, colnum = 5)
+```
+
+## 4a.
+```{r}
+HardyWeinberg2<- function(p=runif(1)) {
+  if (p > 1.0 | p < 0.0) {
+    stop("Function failure: p must be >= 0.0 and <= 1.0")
+  }
+  q <- 1 - p
+  fAB <- 2*p*q
+ vecOut <- signif(c(AB=fAB),digits=3)
+ return(vecOut)
+}
+HardyWeinberg2()
+
+fitLinear <- function(x=runif(20),y=runif(20)) {
+  myMod <- lm(y~x) # fit the model
+  myOut <- c(slope=summary(myMod)$coefficients[2,1])
+  myOut <- myOut * -1
+            # pValue=summary(myMod)$coefficients[2,4])
+ # plot(x=x,y=y) # quick and dirty plot to check output
+  return(myOut)
+}
+fitLinear()
+input <- 10:19
+
+for(i in 10:19) {
+  product <- fitLinear(x = i, y = i)
+  return(product)
+}
+
+input <- runif(10, min = 0.0001, max = 0.9999)
+
+output <- data.frame(fitLinear(x = 10:19, y = 10:19))
+
+set <- cbind(input, rnorm(n = 10, mean = 5), rnorm(n = 10, mean = 8), rnorm(n = 10, mean = 3), HardyWeinberg2(input[i]))
+
+for(i in 1:10){
+  set <- HardyWeinberg2(input[i])
+  return(set)}
+
+HardyWeinberg2(p = input[1])
+
 ```
 
